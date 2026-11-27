@@ -10,8 +10,8 @@ const databaseSecurityGroup = new aws.ec2.SecurityGroup("codeit-db-sg", {
   ingress: [
     {
       protocol: "tcp",
-      fromPort: 3306,
-      toPort: 3306,
+      fromPort: 5432,
+      toPort: 5432,
       securityGroups: [ec2SecurityGroup.id],
     },
   ],
@@ -21,8 +21,9 @@ const subnetGroup = new aws.rds.SubnetGroup("codeit-db-subnets", {
   subnetIds: [privateSubnetA.id, privateSubnetC.id],
 });
 
-const database = new aws.rds.Instance("codeit-mysql", {
-  engine: "mysql",
+const database = new aws.rds.Instance("codeit-postgres", {
+  engine: "postgres",
+  engineVersion: "18",
   instanceClass: "db.t3.micro",
   allocatedStorage: 20,
   storageType: "gp3",
